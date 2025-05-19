@@ -1,0 +1,4 @@
+flask
+werkzeug
+flask-session
+psycopg2-binary

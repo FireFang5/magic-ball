@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Магический Шар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="top-bar">
+    <div class="user-info">
+    {% if 'user' in session %}
+        👤 {{ session['user'] }} |
+        <form method="get" action="/logout" style="display:inline;">
+    <button class="logout-btn">Выйти</button>
+</form>
+    {% else %}
+        👤 Гость
+    {% endif %}
+</div>
+    <div class="auth-buttons">
+        <button onclick="openLogin()">Вход</button>
+        <button onclick="openRegister()">Регистрация</button>
+    </div>
+</div>
+    <div class="container">
+        <h1>🎱 Магический шар</h1>
+        <form method="get" action="/">
+            <input type="text" name="q" placeholder="Задай свой вопрос..." required>
+            <button type="submit">Спросить</button>
+        </form>
+        {% if question %}
+            <div class="result">
+                <p><strong>Ты спросил:</strong> {{ question }}</p>
+                <p><strong>Ответ шара:</strong> {{ answer }}</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <p style="margin-top: 20px;">
+</p>
+
+    
+
+
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h3>Регистрация</h3>
+        <form method="post" action="/register">
+            <input type="text" name="username" placeholder="Имя пользователя" required><br>
+            <input type="password" name="password" placeholder="Пароль" required><br>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <h3>Вход</h3>
+        <form method="post" action="/login">
+            <input type="text" name="username" placeholder="Имя пользователя" required><br>
+            <input type="password" name="password" placeholder="Пароль" required><br>
+            <button type="submit">Войти</button>
+        </form>
+    </div>
+</div>
+<script>
+function openRegister() {
+    document.getElementById("registerModal").style.display = "block";
+}
+
+function openLogin() {
+    document.getElementById("loginModal").style.display = "block";
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
+}
+
+window.onclick = function(event) {
+    ['registerModal', 'loginModal'].forEach(id => {
+        const modal = document.getElementById(id);
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+}
+</script>
+{% if history %}
+        <div class="history">
+            <h3>📜 История вопросов</h3>
+            <ul>
+                {% for q, a in history %}
+                    <li><em>{{ q }}</em> → {{ a }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>
