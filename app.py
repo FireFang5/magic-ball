@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 import random
 import psycopg2
+from openai import OpenAI
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
@@ -24,6 +25,24 @@ DB_NAME = os.getenv("DB_NAME", "magic")
 DB_USER = os.getenv("DB_USER", "postgres")
 DB_PASS = os.getenv("DB_PASS", "postgres")
 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def get_chatgpt_response(user_question, template="Ты ассистент. Отвечай только 'Да' или 'Нет'."):
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": template},
+                {"role": "user", "content": user_question}
+            ],
+            max_tokens=20,
+            temperature=0.5
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"Ошибка: {str(e)}"
+    
+    
 # Функция подключения к базе
 def get_db():
     return psycopg2.connect(
@@ -45,7 +64,9 @@ def index():
     username = session.get('user')
 
     if question:
-        answer = random.choice(answers)
+        template = "Ты ассистент. Отвечай только 'Да' или 'Нет'."
+        answer = get_chatgpt_response(question, template)
+
 
         if username:
             conn = get_db()
