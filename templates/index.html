@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Магический Шар</title>
+    <title>Magic Ball</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -11,27 +11,27 @@
     {% if 'user' in session %}
         👤 {{ session['user'] }} |
         <form method="get" action="/logout" style="display:inline;">
-    <button class="logout-btn">Выйти</button>
+    <button class="logout-btn">Logout</button>
 </form>
     {% else %}
-        👤 Гость
+        👤 Guest  
     {% endif %}
 </div>
     <div class="auth-buttons">
-        <button onclick="openLogin()">Вход</button>
-        <button onclick="openRegister()">Регистрация</button>
+        <button onclick="openLogin()">Login</button>
+        <button onclick="openRegister()">Register</button>
     </div>
 </div>
     <div class="container">
-        <h1>🎱 Магический шар</h1>
+        <h1>🎱 Magic Ball</h1>
         <form method="get" action="/">
-            <input type="text" name="q" placeholder="Задай свой вопрос..." required>
-            <button type="submit">Спросить</button>
+            <input type="text" name="q" placeholder="Ask your question..." required>
+            <button type="submit">Ask</button>
         </form>
         {% if question %}
             <div class="result">
-                <p><strong>Ты спросил:</strong> {{ question }}</p>
-                <p><strong>Ответ шара:</strong> {{ answer }}</p>
+                <p><strong>You asked:</strong> {{ question }}</p>
+                <p><strong>Ball's answer:</strong> {{ answer }}</p>
             </div>
         {% endif %}
     </div>
@@ -50,7 +50,7 @@
         <form method="post" action="/register">
             <input type="text" name="username" placeholder="Имя пользователя" required><br>
             <input type="password" name="password" placeholder="Пароль" required><br>
-            <button type="submit">Зарегистрироваться</button>
+            <button type="submit">Sign up</button>
         </form>
     </div>
 </div>
@@ -62,7 +62,7 @@
         <form method="post" action="/login">
             <input type="text" name="username" placeholder="Имя пользователя" required><br>
             <input type="password" name="password" placeholder="Пароль" required><br>
-            <button type="submit">Войти</button>
+            <button type="submit">Login</button>
         </form>
     </div>
 </div>
@@ -90,7 +90,7 @@ window.onclick = function(event) {
 </script>
 {% if history %}
         <div class="history">
-            <h3>📜 История вопросов</h3>
+            <h3>📜 Question History</h3>
             <ul>
                 {% for q, a in history %}
                     <li><em>{{ q }}</em> → {{ a }}</li>
