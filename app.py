@@ -25,7 +25,7 @@ DB_NAME = os.getenv("DB_NAME", "magic")
 DB_USER = os.getenv("DB_USER", "postgres")
 DB_PASS = os.getenv("DB_PASS", "postgres")
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # def get_chatgpt_response(user_question, template="Ты ассистент. Отвечай только 'Да' или 'Нет'."):
 #     try:
