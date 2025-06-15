@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Создаём анимацию ожидания
             const thinking = document.createElement("div");
             thinking.className = "thinking";
-            thinking.innerHTML = "🔮 Шар размышляет...";
+            thinking.innerHTML = "🔮 The ball is considering your question...";
             form.parentElement.appendChild(thinking);
 
             // Подождём 2 секунды — потом отправим форму по-настоящему

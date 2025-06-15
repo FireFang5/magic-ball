@@ -9,14 +9,14 @@ app = Flask(__name__)
 app.secret_key = 'очень_секретная_строка_123'
 
 answers = [
-    "Без сомнений",
-    "Скорее всего да",
-    "Спроси позже",
-    "Не рассчитывай на это",
-    "Определённо нет",
-    "Да, но не сейчас",
-    "Сложно сказать",
-    "Знаки указывают на да"
+    "нет",
+    "да"
+    # "Спроси позже",
+    # "Не рассчитывай на это",
+    # "Определённо нет",
+    # "Да, но не сейчас",
+    # "Сложно сказать",
+    # "Знаки указывают на да"
 ]
 
 # Получаем параметры из docker-compose
@@ -27,20 +27,20 @@ DB_PASS = os.getenv("DB_PASS", "postgres")
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def get_chatgpt_response(user_question, template="Ты ассистент. Отвечай только 'Да' или 'Нет'."):
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": template},
-                {"role": "user", "content": user_question}
-            ],
-            max_tokens=20,
-            temperature=0.5
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"Ошибка: {str(e)}"
+# def get_chatgpt_response(user_question, template="Ты ассистент. Отвечай только 'Да' или 'Нет'."):
+#     try:
+#         response = client.chat.completions.create(
+#             model="gpt-3.5-turbo",
+#             messages=[
+#                 {"role": "system", "content": template},
+#                 {"role": "user", "content": user_question}
+#             ],
+#             max_tokens=20,
+#             temperature=0.5
+#         )
+#         return response.choices[0].message.content.strip()
+#     except Exception as e:
+#         return f"Ошибка: {str(e)}"
     
     
 # Функция подключения к базе
@@ -64,8 +64,9 @@ def index():
     username = session.get('user')
 
     if question:
-        template = "Ты ассистент. Отвечай только 'Да' или 'Нет'."
-        answer = get_chatgpt_response(question, template)
+    # template = "Ты ассистент. Отвечай только 'Да' или 'Нет'."
+    # answer = get_chatgpt_response(question, template)
+        answer = random.choice(answers)
 
 
         if username:
